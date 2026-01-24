@@ -1,7 +1,16 @@
+import PhoneItem from "@/app/_components/phone-item"
+import ServiceItem from "@/app/_components/service-item"
 import { Button } from "@/app/_components/ui/button"
 import { db } from "@/app/_lib/prisma"
-import { notDeepEqual } from "assert"
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
+import {
+  ChevronLeftIcon,
+  MapPinIcon,
+  MenuIcon,
+  Phone,
+  Smartphone,
+  SmartphoneIcon,
+  StarIcon,
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -16,6 +25,9 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
   const barbershop = await db.barberShop.findUnique({
     where: {
       id,
+    },
+    include: {
+      barberShopServices: true,
     },
   })
 
@@ -68,6 +80,26 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
           {barbershop?.description ||
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
         </p>
+      </div>
+
+      {/* Services */}
+      <div className="space-y-3 border-b border-solid p-5">
+        <h2 className="mb-3 text-xs font-bold text-gray-400 uppercase">
+          Serviços
+        </h2>
+        {barbershop.barberShopServices.map((service) => (
+          <ServiceItem key={service.id} service={service} />
+        ))}
+      </div>
+
+      {/* Contact */}
+      <div className="space-y-3 border-b border-solid p-5">
+        <h2 className="mb-3 text-xs font-bold text-gray-400 uppercase">
+          Contato
+        </h2>
+        {barbershop.phones.map((phone, i) => (
+          <PhoneItem key={i} phone={phone} />
+        ))}
       </div>
     </div>
   )
