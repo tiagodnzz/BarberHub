@@ -101,6 +101,8 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
           <PhoneItem key={i} phone={phone} />
         ))}
       </div>
+
+      {/* footer */}
     </div>
   )
 }
