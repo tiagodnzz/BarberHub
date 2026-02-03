@@ -1,19 +1,95 @@
-import Image from "next/image";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
-import { MenuIcon } from "lucide-react";
+import Image from "next/image"
+import { Card, CardContent } from "./ui/card"
+import { Button } from "./ui/button"
+import { CalendarIcon, HomeIcon, LogOutIcon, MenuIcon } from "lucide-react"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet"
+import { quickSearchOptions } from "../_constants/search"
+import { Avatar, AvatarImage } from "./ui/avatar"
+import Link from "next/link"
 
 const Header = () => {
-    return (
-        <Card>
-            <CardContent className="flex flex-row items-center justify-between">
-                <Image src="/logo.png" alt="BarberHub Logo" height={18} width={120} />
-                <Button size="icon" variant={"outline"}>
-                    <MenuIcon />
+  return (
+    <Card>
+      <CardContent className="flex flex-row items-center justify-between">
+        <Image src="/logo.png" alt="BarberHub Logo" height={18} width={120} />
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button size="icon" variant={"outline"}>
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle className="text-left">Menu</SheetTitle>
+            </SheetHeader>
+
+            <div className="flex flex-row items-center gap-2 px-5">
+              <Avatar>
+                <AvatarImage
+                  src="https://images.unsplash.com/photo-1691085465046-807f880ba9d7?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="User Avatar"
+                />
+              </Avatar>
+
+              <div className="">
+                <p className="text-sm font-bold">Tiago Diniz</p>
+                <p className="text-sm text-gray-500">tiagodnzz@gmail.com</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 border-b border-solid p-5">
+              <SheetClose asChild>
+                <Button className="justify-start gap-2" asChild>
+                  <Link href="/">
+                    <HomeIcon size={18} />
+                    Inicio
+                  </Link>
                 </Button>
-            </CardContent>
-        </Card>
-    );
+              </SheetClose>
+
+              <Button className="justify-start gap-2" variant="ghost">
+                <CalendarIcon size={18} />
+                Agendamento
+              </Button>
+            </div>
+
+            <div className="flex flex-col gap-2 border-b border-solid p-5">
+              {quickSearchOptions.map((option) => (
+                <Button
+                  key={option.title}
+                  className="justify-start gap-2"
+                  variant="ghost"
+                >
+                  <Image
+                    src={option.imageUrl}
+                    alt={option.title}
+                    width={18}
+                    height={18}
+                  />
+                  {option.title}
+                </Button>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-2 p-5">
+              <Button className="justify-start gap-2" variant="destructive">
+                <LogOutIcon size={18} />
+                Sair da conta
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </CardContent>
+    </Card>
+  )
 }
 
-export default Header;
+export default Header
